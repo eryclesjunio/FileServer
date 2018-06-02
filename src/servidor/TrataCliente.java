@@ -20,7 +20,7 @@ import java.util.Scanner;
  */
 
 public class TrataCliente implements Runnable {
-    public final static int SOCKET_PORT = 13267;
+ 
     public final static String FILE_TO_SEND = "C:\\Users\\user\\Desktop\\arquivos\\code.txt";
     private Socket cliente;
     private Servidor servidor;
