@@ -25,11 +25,8 @@ public class Servidor {
     }
     
     //Atributos
-    
-    //Determina qual arquivo deverá ser enviado quando requisitado e onde ele está
-    public final static String FILE_TO_SEND = "C:\\Users\\user\\Desktop\\arquivos\\code.txt"; 
     private int porta;
-    public ServerSocket servidor;
+    private ServerSocket servidor;
     //Salva stream dos clientes para comunicar mais tarde
     private List<PrintStream> clientes; 
 
@@ -41,15 +38,14 @@ public class Servidor {
     }
 
     public void executa () throws IOException {
-        System.out.println("Porta 12345 aberta!");
+        System.out.println("Porta " + this.porta + " aberta!");
         //Enquanto true, cria uma Thread para cada cliente
         while (true) {
             System.out.println("Esperando...");
             // aceita um cliente
             Socket cliente = servidor.accept();
             System.out.println("Nova conexão com o cliente " +     
-                cliente.getInetAddress().getHostAddress()
-            );
+                cliente.getInetAddress().getHostAddress());
 
             // adiciona saida do cliente à lista
             PrintStream ps = new PrintStream(cliente.getOutputStream());

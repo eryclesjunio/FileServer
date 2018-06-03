@@ -20,10 +20,15 @@ import java.util.Scanner;
  */
 
 public class TrataCliente implements Runnable {
- 
+    //Determina qual arquivo deverá ser enviado quando requisitado e onde ele está
     public final static String FILE_TO_SEND = "C:\\Users\\user\\Desktop\\arquivos\\code.txt";
     private Socket cliente;
     private Servidor servidor;
+    
+    /**
+     * @param cliente define o Socket do cliente que realizou a conexão
+     * @param servidor objeto que controla a conexão
+     */
 
     public TrataCliente(Socket cliente, Servidor servidor) {
         this.cliente = cliente;
@@ -31,7 +36,7 @@ public class TrataCliente implements Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         
         FileInputStream fis = null;
         BufferedInputStream bis = null;
@@ -53,13 +58,18 @@ public class TrataCliente implements Runnable {
             File arquivo = new File (FILE_TO_SEND);
             byte [] bytearray  = new byte [(int)arquivo.length()]; //Prepara o arquivo
             
-            /*As classes abstratas InputStream e OutputStream que definem a forma como, respectivamente,
-            você lê e grava sequências de bytes sem se importar com a fonte ou destino dos dados.*/
-            
-            /*FileInputStream e FileOutputStream: como os nomes sugerem, são para tratar de arquivos,
-            o primeiro possui métodos para ler um arquivo e o segundo possui métodos para escrever.*/
-            
+           /*As classes abstratas InputStream e OutputStream que definem a forma como, respectivamente,
+            *você lê e grava sequências de bytes sem se importar com a fonte ou destino dos dados.
+            */
+           
+           /*FileInputStream e FileOutputStream: como os nomes sugerem, são para tratar de arquivos,
+            *o primeiro possui métodos para ler um arquivo e o segundo possui métodos para escrever.
+            */
+           
             fis = new FileInputStream(arquivo);
+            bis = new BufferedInputStream(fis); //BufferedInputStream possui melhor performance (Leitura mais rápida)
+            bis.read(bytearray,0,bytearray.length); //Lê o conteúdo do arquivo para o array de Bytes
+            
             os = this.cliente.getOutputStream(); //Maneira de comunicar com o cliente através de streams
             System.out.println("Enviando " + FILE_TO_SEND + "(" + bytearray.length + " bytes)");
            //enviar um dado para um dispositivo de saída 
